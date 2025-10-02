@@ -120,6 +120,12 @@ double Parser::parse_factor(){
         result = std::exp(parse_factor());
         break;
     }
+    case TOKEN::LN:
+    {
+        getNextToken();
+        result = std::log(parse_factor());
+        break;
+    }
     default:
         throw "EXPECTED PRIMARY\n";
         break;
@@ -206,6 +212,16 @@ void Parser::getNextToken(){
         index++;
         break;
     }
+    case 'l':
+    {
+        if(checkLog()){
+            current_token = TOKEN::LN;
+            index += 2;
+        }else{
+            throw "UNDEFINED SYMBOL\n";
+        }
+        break;
+    }
     default:
         if(c >= '0' && c <= '9' || c == '.'){
             current_token = TOKEN::number;
@@ -286,4 +302,9 @@ bool Parser::checkPI(){
     return false;
 }
 
-
+bool Parser::checkLog(){
+        if(m_expression[index] == 'l' && m_expression[index + 1] == 'n'){
+            return true;
+        }
+        return false;
+    }

@@ -32,7 +32,7 @@ Window::Window(QWidget* parent) : QWidget(parent)
         {"1", "2", "3", "+", "-", "*"   },
         {"4", "5", "6", "/", "^", "sin" },
         {"7", "8", "9", "(", ")", "cos" },
-        {"0", ".", "=", "exp", "", ""   }
+        {"0", ".", "=", "exp", "ln", "PI"   }
     };
 
 
@@ -68,7 +68,10 @@ Window::Window(QWidget* parent) : QWidget(parent)
     QObject::connect(buttons[23], &QPushButton::clicked, [&]{ButtonAddToken("cos");});
     QObject::connect(buttons[25], &QPushButton::clicked, [&]{ButtonAddToken(".");});
     QObject::connect(buttons[27], &QPushButton::clicked, [&]{ButtonAddToken("exp");});
-    
+    QObject::connect(buttons[28], &QPushButton::clicked, [&]{ButtonAddToken("ln");});
+    QObject::connect(buttons[29], &QPushButton::clicked, [&]{ButtonAddToken("PI");});
+
+
     QObject::connect(buttons[0], &QPushButton::clicked, [&]{delButton();});
     QObject::connect(buttons[1], &QPushButton::clicked, [&]{ClearButton();});
     QObject::connect(buttons[26], &QPushButton::clicked, [&]{EqualButton();});

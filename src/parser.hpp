@@ -21,6 +21,7 @@ class Parser{
         SIN,
         EXP,
         POW,
+        LN,
         END
     };
 
@@ -62,4 +63,5 @@ private:
 
     bool checkPI();
 
+    bool checkLog();
 };
