@@ -35,7 +35,7 @@ public:
     Parser(const std::string& expression);
 
     double getAnswer();
-    void setExpression(const std::string& expression){m_expression = expression; }
+    void setExpression(const std::string expression){m_expression = expression; }
 
 private:
 

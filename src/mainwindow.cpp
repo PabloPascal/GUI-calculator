@@ -1,5 +1,8 @@
 #include "mainwindow.hpp"
+#include "parser.hpp"
+
 #include <iostream>
+#include <QKeyEvent>
 
 
 Window::Window(QWidget* parent) : QWidget(parent)
@@ -9,12 +12,18 @@ Window::Window(QWidget* parent) : QWidget(parent)
 
     display = new QLineEdit(this);
     display->setReadOnly(true);
+    display->setAlignment(Qt::AlignRight);
     display->setMinimumSize(480, 50);
+
+    QFont font = display->font();
+    font.setPointSize(font.pointSize() + 8);
+    display->setFont(font);
 
     grid = new QGridLayout;
     mainlayout = new QVBoxLayout(this);
     mainlayout->addWidget(display);
     mainlayout->addLayout(grid);
+    //mainlayout->setSizeConstraint(QLayout::SetFixedSize);
 
     //grid->addWidget(display);
 
@@ -31,6 +40,7 @@ Window::Window(QWidget* parent) : QWidget(parent)
     for(size_t i = 0; i < 5; i++){
         for(size_t j = 0; j < 6; j++){
             buttons[i*6 + j] = new QPushButton(names[i][j]);
+            buttons[i*6 + j]->setMaximumSize(60, 60);
             grid->addWidget(buttons[i*6 + j], i, j);
         }
     }
@@ -55,7 +65,6 @@ Window::Window(QWidget* parent) : QWidget(parent)
     QObject::connect(buttons[17], &QPushButton::clicked, [&]{ButtonAddToken("sin");});
     QObject::connect(buttons[21], &QPushButton::clicked, [&]{ButtonAddToken("(");});
     QObject::connect(buttons[22], &QPushButton::clicked, [&]{ButtonAddToken(")");});
-    QObject::connect(buttons[22], &QPushButton::clicked, [&]{ButtonAddToken(")");});
     QObject::connect(buttons[23], &QPushButton::clicked, [&]{ButtonAddToken("cos");});
     QObject::connect(buttons[25], &QPushButton::clicked, [&]{ButtonAddToken(".");});
     QObject::connect(buttons[27], &QPushButton::clicked, [&]{ButtonAddToken("exp");});
@@ -66,7 +75,7 @@ Window::Window(QWidget* parent) : QWidget(parent)
 
 
     setWindowTitle("Calculator");
-    setMinimumSize(300, 480);
+    setMinimumSize(200, 480);
 
 }
 
@@ -91,10 +100,102 @@ void Window::delButton(){
 
 
 void Window::EqualButton(){
-    parser.setExpression(q_expression.toStdString());
+    std::string expr = q_expression.toStdString();
+
+    Parser parser(expr);
     double ans = parser.getAnswer();
     ClearButton();
     q_expression = QString::number(ans);
+    qDebug() << ans;
     display->setText(q_expression);
+
+}
+
+
+void Window::keyPressEvent(QKeyEvent* event){
+    
+    switch (event->key())
+    {
+    case Qt::Key_0:
+        ButtonAddToken("0");
+        break;
+    case Qt::Key_1:
+        ButtonAddToken("1");
+        break;
+    case Qt::Key_2:
+        ButtonAddToken("2");
+        break;
+    case Qt::Key_3:
+        ButtonAddToken("3");
+        break;
+    case Qt::Key_4:
+        ButtonAddToken("4");
+        break;
+    case Qt::Key_5:
+        ButtonAddToken("5");
+        break;
+    case Qt::Key_6:
+        ButtonAddToken("6");
+        break;
+    case Qt::Key_7:
+        ButtonAddToken("7");
+        break;
+    case Qt::Key_8:
+        ButtonAddToken("8");
+        break;
+    case Qt::Key_9:
+        ButtonAddToken("9");
+        break;
+    case Qt::Key_Plus:
+        ButtonAddToken("+");
+        break;
+    case Qt::Key_Minus:
+        ButtonAddToken("-");
+        break;
+    case Qt::Key_Escape:
+        delButton();
+        break;
+    case Qt::Key_Delete:
+        delButton();
+        break;
+    case Qt::Key_Backspace:
+        delButton();
+        break;
+    case Qt::Key_Slash:
+        ButtonAddToken("/");
+        break;
+    case Qt::Key_division:
+        ButtonAddToken("/");
+        break;
+    case Qt::Key_Asterisk:
+        ButtonAddToken("*");
+        break;
+    case Qt::Key_multiply:
+        ButtonAddToken("*");
+        break;
+    case Qt::Key_Period:
+        ButtonAddToken(".");
+        break;
+    case Qt::Key_Comma:
+        ButtonAddToken(".");
+        break;
+    case Qt::Key_ParenLeft:
+        ButtonAddToken("(");
+        break;
+    case Qt::Key_ParenRight:
+        ButtonAddToken(")");
+        break;
+    case Qt::Key_Equal:
+        EqualButton();
+        break;
+    case Qt::Key_Return:
+        EqualButton();
+        break;
+    case Qt::Key_Enter:
+        EqualButton();
+        break;
+    default:
+        break;
+    }
 
 }

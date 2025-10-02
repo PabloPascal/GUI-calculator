@@ -18,7 +18,7 @@ double Parser::getAnswer(){
 }
 
 
-    //parse with sum or number
+//parse with sum or number
 double Parser::parse_expr(){
 
     double left = parse_term();
@@ -80,7 +80,7 @@ double Parser::parse_factor(){
 
     double result;
     switch (current_token)
-        {
+    {
     case TOKEN::number:
     {
         result = current_number;
@@ -90,17 +90,17 @@ double Parser::parse_factor(){
     case TOKEN::minus:
     {
         result = -current_number;
-    getNextToken();
-    break;
+        getNextToken();
+        break;
     }
     case TOKEN::LP:
     {
-            getNextToken();
-       result = parse_expr();
-       if(current_token != TOKEN::RP) throw "EXPECTED )\n";
+        getNextToken();
+        result = parse_expr();
+        if(current_token != TOKEN::RP) throw "EXPECTED )\n";
        
-       getNextToken();
-       break;
+        getNextToken();
+        break;
     }
     case TOKEN::COS:
     {
@@ -137,10 +137,10 @@ double Parser::parse_factor(){
 
 void Parser::getNextToken(){
 
-        skip_void();
+    skip_void();
 
-        if(index >= m_expression.size()) {
-            current_token = TOKEN::END;
+    if(index >= m_expression.size()) {
+        current_token = TOKEN::END;
         return;
     }
     char c = m_expression[index];

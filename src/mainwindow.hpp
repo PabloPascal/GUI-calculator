@@ -3,7 +3,6 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <string>
-#include "parser.hpp"
 
 
 class Window : public QWidget{
@@ -21,6 +20,8 @@ private slots:
     void delButton();
     void EqualButton();
 
+    void keyPressEvent(QKeyEvent* key_event) override;
+
 private:
 
     QString q_expression;
@@ -31,6 +32,6 @@ private:
     QGridLayout* grid;
     QVBoxLayout* mainlayout;
 
-    Parser parser;
+    //Parser parser;
 
 };
