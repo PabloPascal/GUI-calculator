@@ -3,5 +3,5 @@
 
 
 
-![иллюстрация RAYCAST](https://github.com/PabloPascal/GUI-calculator/blob/master/calculator.png)
+![иллюстрация Calculator](https://github.com/PabloPascal/GUI-calculator/blob/master/calculator2.png)
 
